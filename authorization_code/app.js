@@ -16,6 +16,8 @@ var spotifyKeys = require('../spotifyKeys.js');
 var client_id = spotifyKeys.client_id; // Your client id
 var client_secret = spotifyKeys.client_secret; // Your secret
 var redirect_uri = spotifyKeys.redirect_uri; // Your redirect uri
+var Spotify = require('spotify-web-api-js');
+var s = new Spotify();
 
 /**
  * Generates a random string containing numbers and letters
@@ -45,7 +47,7 @@ app.get('/login', function(req, res) {
   res.cookie(stateKey, state);
 
   // your application requests authorization
-  var scope = 'user-read-private user-read-email';
+  var scope = 'user-read-private user-read-email user-library-read playlist-read-private playlist-modify-public playlist-modify-private';
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
