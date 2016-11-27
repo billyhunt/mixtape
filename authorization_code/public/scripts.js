@@ -18,12 +18,6 @@
           return hashParams;
         }
 
-
-      function playPlaylist() {
-          var uri = this.attr('uri');
-          console.log(uri);
-      }
-
         var userProfileSource = document.getElementById('user-profile-template').innerHTML,
             userProfileTemplate = Handlebars.compile(userProfileSource),
             userProfilePlaceholder = document.getElementById('user-profile');
@@ -50,7 +44,13 @@
               var $userPlaylists = $('.user-playlists');
               for (var i=0; i < data.items.length; i++) {
                   var item = data.items[i];
-                  $userPlaylists.append('<a class="playlist-link" href="#" uri="' + item.uri + '">' + item.name + '</a></br>');
+                  $userPlaylists.append('<a class="playlist-link-' + i + '" href="#" uri="' + item.uri + '">' + item.name + '</a></br>');
+
+                  $('.playlist-link-' + i).click(function() {
+                      $('iframe').attr('src', "https://embed.spotify.com/?uri=" + $(this).attr('uri'));
+                      $('play-button').click();
+                  });
+
               }
 
           }, function(err) {
@@ -86,10 +86,6 @@
               $('#loggedin').hide();
           }
 
-          $(document).ready(function() {
-              $('.playlist-link').click(function() { console.log(this)});
-
-          });
 
           document.getElementById('obtain-new-token').addEventListener('click', function() {
             $.ajax({
@@ -106,10 +102,5 @@
               });
             });
           }, false);
-
-          document.getElementById('get-user-playlists').addEventListener('click', function() {
-
-
-          }, false);
-        }
+       }
       })();
